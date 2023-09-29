@@ -3,70 +3,70 @@ let myFavList = JSON.parse(localStorage.getItem("myFavourite")) || [];
 
 
 
-    const input = document.getElementById('formGroupExampleInput');
-    const searchButton = document.getElementById('style-button');
-    const outPutBox = document.getElementById('box1');
-    const listItems = document.getElementById('saved');
+const input = document.getElementById('formGroupExampleInput');
+const searchButton = document.getElementById('style-button');
+const outPutBox = document.getElementById('box1');
+const listItems = document.getElementById('saved');
 
-    // Function to create a wishlist item
-    function createWishlistItem(savedItem) {
-        const wishlistItem = document.createElement('div');
-        wishlistItem.innerHTML = savedItem.wishlistItem;
+// Function to create a wishlist item
+function createWishlistItem(savedItem) {
+    const wishlistItem = document.createElement('div');
+    wishlistItem.innerHTML = savedItem.wishlistItem;
 
-        // Add event listeners to buttons within the wishlist item if needed
-        wishlistItem.querySelector('.remove').addEventListener('click', () => {
-            wishlistItem.remove();
-            removeItemFromLocalStorage(savedItem);
-        });
+    // Add event listeners to buttons within the wishlist item if needed
+    wishlistItem.querySelector('.remove').addEventListener('click', () => {
+        wishlistItem.remove();
+        removeItemFromLocalStorage(savedItem);
+    });
 
-        // ... (add event listeners for other buttons if needed)
+    // ... (add event listeners for other buttons if needed)
 
-        return wishlistItem;
-    }
+    return wishlistItem;
+}
 
-    // Function to populate the wishlist section
-    function populateWishlist() {
-        listItems.innerHTML = ''; // Clear the existing content
-        myFavList.forEach((savedItem) => {
-            const wishlistItem = createWishlistItem(savedItem);
-            listItems.appendChild(wishlistItem);
-        });
-    }
+// Function to populate the wishlist section
+function populateWishlist() {
+    listItems.innerHTML = ''; // Clear the existing content
+    myFavList.forEach((savedItem) => {
+        const wishlistItem = createWishlistItem(savedItem);
+        listItems.appendChild(wishlistItem);
+    });
+}
 
-    // Populate the wishlist section when the page loads
-    populateWishlist();
+// Populate the wishlist section when the page loads
+populateWishlist();
 
-    function updtaLocalStorage() {
-        localStorage.setItem("myFavourite", JSON.stringify(myFavList))
-    }
+function updtaLocalStorage() {
+    localStorage.setItem("myFavourite", JSON.stringify(myFavList))
+}
 // Remove Item from local storage
-    function removeItemFromLocalStorage(itemToRemove) {
-        myFavList = myFavList.filter((savedItem) => savedItem !== itemToRemove);
-        updtaLocalStorage();
-    }
+function removeItemFromLocalStorage(itemToRemove) {
+    myFavList = myFavList.filter((savedItem) => savedItem !== itemToRemove);
+    updtaLocalStorage();
+}
 
-    function fetchResult(query) {
-        fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${query}`)
-            .then((response) => response.json())
-            .then((data) => {
-                outPutBox.innerHTML = '';
-                if (data.meals) {
-                    data.meals.forEach((meal) => {
-                        const mealCard = document.createElement('div');
-                        mealCard.innerHTML = `<div class="card">
+function fetchResult(query) {
+    fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${query}`)
+        .then((response) => response.json())
+        .then((data) => {
+            outPutBox.innerHTML = '';
+            if (data.meals) {
+                data.meals.forEach((meal) => {
+                    const mealCard = document.createElement('div');
+                    mealCard.innerHTML = `<div class="card">
                             <img src="${meal.strMealThumb}" class="card-img-top" alt="${meal.strMeal}">
                             <div class="card-body">
                                 <h5 class="card-title">${meal.strMeal}</h5>
                                 <button class="btn btn-primary">Favorite</button>
                             </div>
                         </div>`;
-                        outPutBox.appendChild(mealCard);
-                        input.value = '';
-                        const favouriteButton = mealCard.querySelector('.btn-primary');
-                        favouriteButton.addEventListener('click', (e) => {
-                            favouriteButton.disabled = true;
-                            const wishlistItem = document.createElement('div');
-                            wishlistItem.innerHTML = `<div class="card fav-card">
+                    outPutBox.appendChild(mealCard);
+                    input.value = '';
+                    const favouriteButton = mealCard.querySelector('.btn-primary');
+                    favouriteButton.addEventListener('click', (e) => {
+                        favouriteButton.disabled = true;
+                        const wishlistItem = document.createElement('div');
+                        wishlistItem.innerHTML = `<div class="card fav-card">
                                 <img src="${meal.strMealThumb}" class="card-img-top" alt="${meal.strMeal}">
                                 <div class="card-body">
                                     <h5 class="card-title">${meal.strMeal} </h5><button class="button remove">Remove</button>
@@ -88,112 +88,114 @@ let myFavList = JSON.parse(localStorage.getItem("myFavourite")) || [];
                                 </div>
                             </div>`;
 
-                            myFavList.push({
-                                "wishlistItem": wishlistItem.innerHTML
-                            });
+                        myFavList.push({
+                            "wishlistItem": wishlistItem.innerHTML
+                        });
 
-                            updtaLocalStorage();
+                        updtaLocalStorage();
 
-                            e.preventDefault();
-                            listItems.appendChild(wishlistItem);
+                        e.preventDefault();
+                        listItems.appendChild(wishlistItem);
 
-                            listItems.addEventListener('click', (e) => {
-                                if (e.target.classList.contains('remove')) {
-                                    const wishlistItem = e.target.closest('.fav-card');
-                                    if (wishlistItem) {
-                                        wishlistItem.remove();
-                                        // Remove from myFavList and update localStorage
-                                        const itemToRemove = myFavList.find((item) => item.wishlistItem === wishlistItem.innerHTML);
-                                        if (itemToRemove) {
-                                            removeItemFromLocalStorage(itemToRemove);
-                                        }
+                        listItems.addEventListener('click', (e) => {
+                            if (e.target.classList.contains('remove')) {
+                                const wishlistItem = e.target.closest('.fav-card');
+                                if (wishlistItem) {
+                                    wishlistItem.remove();
+                                    // Remove from myFavList and update localStorage
+                                    const itemToRemove = myFavList.find((item) => item.wishlistItem === wishlistItem.innerHTML);
+                                    if (itemToRemove) {
+                                        removeItemFromLocalStorage(itemToRemove);
                                     }
                                 }
-                            });
+                            }
+                        });
 
-                            let count = 1;
-                            while (true) {
-                                const ingredlist = meal["strIngredient" + count];
+                        let count = 1;
+                        //to insert ingredients and measures
+                        while (true) {
+                            const ingredlist = meal["strIngredient" + count];
 
-                                if (!ingredlist) {
-                                    break;
-                                }
-
-                                const ingrlist = document.createElement('li');
-                                ingrlist.classList.add('list-group-item');
-                                ingrlist.innerHTML = ingredlist;
-                                wishlistItem.querySelector('#ingredient').appendChild(ingrlist);
-                                count++;
+                            if (!ingredlist) {
+                                break;
                             }
 
-                            let num = 1;
-                            while (true) {
-                                const measurelist = meal["strMeasure" + num];
+                            const ingrlist = document.createElement('li');
+                            ingrlist.classList.add('list-group-item');
+                            ingrlist.innerHTML = ingredlist;
+                            wishlistItem.querySelector('#ingredient').appendChild(ingrlist);
+                            count++;
+                        }
 
-                                if (!measurelist) {
-                                    break;
-                                }
+                        let num = 1;
+                        while (true) {
+                            const measurelist = meal["strMeasure" + num];
 
-                                const measurementlist = document.createElement('li');
-                                measurementlist.classList.add('list-group-item');
-                                measurementlist.innerHTML = measurelist;
-                                wishlistItem.querySelector('#requirement').appendChild(measurementlist);
-                                num++;
+                            if (!measurelist) {
+                                break;
                             }
 
-                            let flag = true;
-                            listItems.addEventListener('click', (e) => {
-                                if (e.target.classList.contains('ingredients-button')) {
-                                    const ingredientsSection = e.target.closest('.fav-card').querySelector('#ingred');
-                                    if (ingredientsSection) {
-                                        if (flag) {
-                                            ingredientsSection.style.display = 'block';
-                                            flag = false;
-                                        } else {
-                                            ingredientsSection.style.display = 'none';
-                                            flag = true;
-                                        }
+                            const measurementlist = document.createElement('li');
+                            measurementlist.classList.add('list-group-item');
+                            measurementlist.innerHTML = measurelist;
+                            wishlistItem.querySelector('#requirement').appendChild(measurementlist);
+                            num++;
+                        }
+
+                        let flag = true;
+                        listItems.addEventListener('click', (e) => {
+                            if (e.target.classList.contains('ingredients-button')) {
+                                const ingredientsSection = e.target.closest('.fav-card').querySelector('#ingred');
+                                if (ingredientsSection) {
+                                    if (flag) {
+                                        ingredientsSection.style.display = 'block';
+                                        flag = false;
+                                    } else {
+                                        ingredientsSection.style.display = 'none';
+                                        flag = true;
                                     }
                                 }
-                            });
+                            }
                         });
                     });
-                } else {
-                    outPutBox.innerHTML = '<p>No meal found</p>';
-                }
-            })
-            .catch(error => {
-                console.error('Error fetching', error);
-            });
+                });
+            } else {
+                outPutBox.innerHTML = '<p>No meal found</p>';
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching', error);
+        });
+}
+
+// checkig for the item
+searchButton.addEventListener('click', function () {
+    var query = input.value;
+    if (query.trim() !== '') {
+        fetchResult(query);
+    } else {
+        outPutBox.innerHTML = `<p class="null">Please type something</p>`;
     }
-
-    searchButton.addEventListener('click', function () {
-        var query = input.value;
-        if (query.trim() !== '') {
-            fetchResult(query);
-        } else {
-            outPutBox.innerHTML = `<p class="null">Please type something</p>`;
-        }
-    });
-    var wishListContent = document.getElementById('wish')
-    var wishlist = document.getElementById('wishlist-container')
-    flag = true
-    wishlist.addEventListener('click', (e) => {
-        // e.preventDefault()
-        e.stopPropagation()
-        if (flag == true) {
-            wishListContent.style.display = "block"
-            flag = false
-        }
-        else {
-            wishListContent.style.display = "none"
-            flag = true
-        }
-    })
-    // Prevent click events on dropdown
-    wishListContent.addEventListener('click', (e) => {
-        e.stopPropagation();
-        // ... (other code)
+});
+var wishListContent = document.getElementById('wish')
+var wishlist = document.getElementById('wishlist-container')
+flag = true
+wishlist.addEventListener('click', (e) => {
+    // e.preventDefault()
+    e.stopPropagation()
+    if (flag == true) {
+        wishListContent.style.display = "block"
+        flag = false
+    }
+    else {
+        wishListContent.style.display = "none"
+        flag = true
+    }
+})
+// Prevent click events on dropdown
+wishListContent.addEventListener('click', (e) => {
+    e.stopPropagation();
 
 
-    })
+
+})
