@@ -1,4 +1,5 @@
 
+
 # Meal-App
 
 This project is for general purpose user who wants to make list of their favourite dishes in system. User searches for yhe dish and save it for later.
@@ -54,7 +55,9 @@ Here is step-by-step guide to install and set-up the app in your local system to
 | :-------- | :------- | :-------------------------------- |
 | `id`      | `string` | **Required**. Id of item to fetch |
 
+#### add(num1, num2)
 
+Takes two numbers and returns the sum.
 
 
 ## Deployment
@@ -69,6 +72,14 @@ You have successfully installed the application and its time to deploy it.
 
 You can see the attached SC here\
 1.https://drive.google.com/drive/folders/12HWPJYgJ91V5A5PEv8EBrSMyadIG0RJm?usp=sharing
+### Screenshots
+
+![App Screenshot](https://github.com/mishraddeepak/my-fav-meal-app/blob/main/screenshots/Screenshot%202023-09-29%20222548.png)
+
+![App Screenshot](https://github.com/mishraddeepak/my-fav-meal-app/blob/main/screenshots/Screenshot%202023-09-29%20222617.png)
+
+![App Screenshot](https://github.com/mishraddeepak/my-fav-meal-app/blob/main/screenshots/Screenshot%202023-09-29%20222636.png)
+
 ## Features
 
 - Easy to use.
