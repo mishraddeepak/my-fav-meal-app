@@ -61,6 +61,8 @@ function fetchResult(query) {
                             </div>
                         </div>`;
                     outPutBox.appendChild(mealCard);
+                    searchButton.style.backgroundColor=''
+                    searchButton.style.color='';
                     input.value = '';
                     const favouriteButton = mealCard.querySelector('.btn-primary');
                     favouriteButton.addEventListener('click', (e) => {
@@ -72,17 +74,17 @@ function fetchResult(query) {
                                     <h5 class="card-title">${meal.strMeal} </h5><button class="button remove">Remove</button>
                                     <button class="button ingredients-button">Ingredients</button>
                                 </div>
-                                <div id="ingred">
+                                <div id="ingred" ;">
                                     <div class="ingredient-box">
                                         <ul class="list-group list-group-flush" id="ingredient">
                                             <li class="list-group-item disabled" aria-disabled="true">Ingredients:</li>
-                                            <li class="list-group-item">A second item</li> 
+                            
                                         </ul>
                                     </div>
                                     <div class="ingredient-box">
                                         <ul class="list-group" id="requirement">
                                             <li class="list-group-item disabled" aria-disabled="true">Measure:</li>
-                                            <li class="list-group-item">A second item</li> 
+
                                         </ul>
                                     </div>
                                 </div>
@@ -90,12 +92,14 @@ function fetchResult(query) {
 
                         myFavList.push({
                             "wishlistItem": wishlistItem.innerHTML
-                        });
-
-                        updtaLocalStorage();
+                        }); 
+                        
 
                         e.preventDefault();
                         listItems.appendChild(wishlistItem);
+                        
+
+                        updtaLocalStorage();
 
                         listItems.addEventListener('click', (e) => {
                             if (e.target.classList.contains('remove')) {
@@ -142,13 +146,13 @@ function fetchResult(query) {
                             num++;
                         }
 
-                        let flag = true;
+                        let flag = false;
                         listItems.addEventListener('click', (e) => {
                             if (e.target.classList.contains('ingredients-button')) {
                                 const ingredientsSection = e.target.closest('.fav-card').querySelector('#ingred');
                                 if (ingredientsSection) {
                                     if (flag) {
-                                        ingredientsSection.style.display = 'block';
+                                        ingredientsSection.style.display = 'flex';
                                         flag = false;
                                     } else {
                                         ingredientsSection.style.display = 'none';
@@ -169,7 +173,9 @@ function fetchResult(query) {
 }
 
 // checkig for the item
+
 searchButton.addEventListener('click', function () {
+    searchButton.style.cssText='background-color:#02bc43;color:white;'
     var query = input.value;
     if (query.trim() !== '') {
         fetchResult(query);
@@ -184,7 +190,7 @@ wishlist.addEventListener('click', (e) => {
     // e.preventDefault()
     e.stopPropagation()
     if (flag == true) {
-        wishListContent.style.display = "block"
+        wishListContent.style.display = "flex"
         flag = false
     }
     else {
