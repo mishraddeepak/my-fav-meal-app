@@ -4,7 +4,9 @@
 
 This project is for general purpose user who wants to make list of their favourite dishes in system. User searches for yhe dish and save it for later.
 
-![Logo](https://github.com/mishraddeepak/favourite-meal-app/blob/main/foodicon.jpeg)
+```
+https://mishraddeepak.github.io/my_fav_meal_app/
+```
 
 ## Installation
 Here is step-by-step guide to install and set-up the app in your local system to feel a seemless experience.
@@ -71,7 +73,6 @@ You have successfully installed the application and its time to deploy it.
 ## Demo
 
 You can see the attached SC here\
-1.https://drive.google.com/drive/folders/12HWPJYgJ91V5A5PEv8EBrSMyadIG0RJm?usp=sharing
 ### Screenshots
 
 ![App Screenshot](https://github.com/mishraddeepak/my-fav-meal-app/blob/main/screenshots/Screenshot%202023-09-29%20222548.png)
